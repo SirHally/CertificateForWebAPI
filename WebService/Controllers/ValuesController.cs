@@ -10,7 +10,7 @@ namespace WebService.Controllers
 {
     public class ValuesController : ApiController
     {
-        [RequireHttps]
+     
         public string Get()
         {
             return "string";

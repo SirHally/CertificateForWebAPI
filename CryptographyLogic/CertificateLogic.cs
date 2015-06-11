@@ -23,7 +23,7 @@ namespace CryptographyLogic
             return;*/
             //  var cert = new X509Certificate2(certificate,"123456");
 
-            var cert12 = GetCertificateFromStore();
+            X509Certificate2Collection cert12 = GetCertificateFromStore();
 
             var messageHandler = new WebRequestHandler();
             messageHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
@@ -41,7 +41,12 @@ namespace CryptographyLogic
             ServicePointManager.ServerCertificateValidationCallback += ValidateRemoteCertificate;
 
             */
-            messageHandler.ClientCertificates.Add(cert12);
+            foreach (X509Certificate2 certificate2 in cert12)
+            {
+       //         messageHandler.ClientCertificates.Add(certificate2);
+            }
+            messageHandler.ClientCertificates.Add(cert12[6]);
+          //  messageHandler.ClientCertificates.Add(cert12[1]);
 
             var httpClient = new HttpClient(messageHandler);
             var result = await httpClient.GetAsync("https://localhost/WebService/api/Values");
@@ -63,16 +68,16 @@ namespace CryptographyLogic
             return result;
         }
 
-        private static X509Certificate2 GetCertificateFromStore()
+        private static X509Certificate2Collection GetCertificateFromStore()
         {
             // Get the certificate store for the current user.
-            var store = new X509Store(StoreLocation.LocalMachine);
+            var store = new X509Store(StoreLocation.CurrentUser);
             try
             {
                 store.Open(OpenFlags.ReadOnly);
 
                 // Place all certificates in an X509Certificate2Collection object.
-                var certCollection = store.Certificates;
+                X509Certificate2Collection certCollection = store.Certificates;
                 // If using a certificate with a trusted root you do not need to FindByTimeValid, instead:
                 // currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, true);
                 var currentCerts = certCollection.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
@@ -80,7 +85,7 @@ namespace CryptographyLogic
                 // if (signingCert.Count == 0)
                 //     return null;
                 // Return the first certificate in the collection, has the right name and is current.
-                return currentCerts[1];
+                return currentCerts;
             }
             finally
             {
