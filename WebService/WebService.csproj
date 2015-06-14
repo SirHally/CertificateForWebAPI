@@ -39,10 +39,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -55,9 +64,6 @@
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -142,13 +148,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\Certificate.cs" />
+    <Compile Include="App_Start\BasicCertificateValidator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Start\CertificateAuthHandler.cs" />
+    <Compile Include="App_Start\IValidateCertificates.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\RequestController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\RequestPostData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebServiceInjectModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -168,6 +187,32 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APILogic\APILogic.csproj">
+      <Project>{7fa7a81c-a191-4e90-996d-3a9f75bc1b29}</Project>
+      <Name>APILogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\Entity.POCO\Entity.POCO.csproj">
+      <Project>{8b5ca64b-7fd9-4358-9df0-5ef6a8a447a2}</Project>
+      <Name>Entity.POCO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\Entity.Repository\Entity.Repository.csproj">
+      <Project>{309fe14a-a4a5-47b2-add2-9e84bc1034ce}</Project>
+      <Name>Entity.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\Entity.Specification\Entity.Specifications.csproj">
+      <Project>{70f4c765-3253-47a3-8668-b6f26bd6c67b}</Project>
+      <Name>Entity.Specifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IoC\InjectModels\InjectModels.csproj">
+      <Project>{31b038fd-811b-4aea-b89c-4e7af99b2dd9}</Project>
+      <Name>InjectModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IoC\IoCContainer\IoCContainer.csproj">
+      <Project>{140ed19f-6f48-4cf8-9141-2fce9a1181b7}</Project>
+      <Name>IoCContainer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

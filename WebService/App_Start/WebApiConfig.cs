@@ -9,10 +9,19 @@ namespace WebService
     {
         public static void Register(HttpConfiguration config)
         {
+            
+            config.Routes.MapHttpRoute(
+                name: "AnonApi",
+                routeTemplate: "api/Request/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "Request" }
+            );
+            
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { id = RouteParameter.Optional },
+                handler: new CertificateAuthHandler(),
+                constraints: null
             );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

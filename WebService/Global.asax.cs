@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using WebService.App_Start;
+using IoC.IoCContainer;
 
 namespace WebService
 {
@@ -15,13 +9,14 @@ namespace WebService
 
     public class WebApiApplication : System.Web.HttpApplication
     {
+
         protected void Application_Start()
         {
+            IoCContainer.Load(new WebServiceInjectModel());
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new CertificateAuthHandler());
- 
+            
 
         }
     }
